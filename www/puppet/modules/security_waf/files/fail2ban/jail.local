@@ -1,0 +1,14 @@
+#/etc/fail2ban/jail.local
+# https://www.digitalocean.com/community/tutorials/how-fail2ban-works-to-protect-services-on-a-linux-server
+# https://www.digitalocean.com/community/tutorials/how-to-protect-an-apache-server-with-fail2ban-on-ubuntu-14-04
+
+
+[modsec-bad_user_agent]
+enabled = true
+filter = modsec-bad_user_agent
+logpath = /var/log/apache2/*error.log
+action = iptables-multiport[name=modsec-bad_user_agent, port="http,https", protocol=tcp] postback[name=BAD-USER-AGENT, port="http,https", protocol=tcp]
+maxretry = 2
+# 900 = 15 mins
+bantime = 60
+ignoreip = 127.0.0.0/8 10.0.0.0/8 192.168.1.0/24

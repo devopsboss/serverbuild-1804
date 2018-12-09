@@ -1,0 +1,13 @@
+{
+  "name": "devopsboss-site_role",
+  "version": "0.1.0",
+  "author": "devopsboss",
+  "summary": "puppet module for site_role",
+  "license": "Apache-2.0",
+  "source": "https://github.com/devopsboss/serverbuild-1804",
+  "project_page": "https://github.com/devopsboss/serverbuild-1804",
+  "issues_url": "https://github.com/devopsboss/serverbuild-1804/issues",
+  "dependencies": [],
+  "data_provider": null
+}
+

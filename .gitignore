@@ -1,0 +1,10 @@
+.idea/
+.vagrant/
+*.log
+/www/projects/
+*.stackdump
+vendor/
+
+## Backups
+*.zip
+/database/

@@ -1,0 +1,21 @@
+# /etc/php/7.2/mods-available/xdebug.ini
+zend_extension = xdebug.so
+
+xdebug.default_enable = <%= @default_enable %>
+xdebug.remote_autostart = <%= @remote_autostart %>
+xdebug.remote_connect_back = <%= @remote_connect_back %>
+xdebug.remote_enable = <%= @remote_enable %>
+xdebug.remote_handler = <%= @remote_handler %>
+xdebug.remote_host = <%= @remote_host %>
+xdebug.remote_mode = <%= @remote_mode %>
+xdebug.remote_port = <%= @remote_port %>
+xdebug.show_exception_trace = <%= @show_exception_trace %>
+xdebug.show_local_vars = <%= @show_local_vars %>
+xdebug.var_display_max_data = <%= @var_display_max_data %>
+xdebug.var_display_max_depth = <%= @var_display_max_depth %>
+xdebug.max_nesting_level = <%= @max_nesting_level %>
+xdebug.profiler_enable = <%= @profiler_enable %>
+xdebug.profiler_enable_trigger = <%= @profiler_enable_trigger %>
+xdebug.profiler_output_name = <%= @profiler_output_name %>
+xdebug.profiler_output_dir = <%= @profiler_output_dir %>
+xdebug.idekey = <%= @idekey %>

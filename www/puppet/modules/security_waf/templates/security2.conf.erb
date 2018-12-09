@@ -1,0 +1,18 @@
+# /etc/apache2/mods-enabled/security2.conf
+<IfModule security2_module>
+	# Default Debian dir for modsecurity's persistent data
+	SecDataDir /var/cache/modsecurity
+
+	# Include all the *.conf files in /etc/modsecurity.
+	# Keeping your local configuration in that directory
+	# will allow for an easy upgrade of THIS file and
+	# make your life easier
+    IncludeOptional /etc/modsecurity/*.conf
+
+	# Include OWASP ModSecurity CRS rules if installed
+	<%= @owasp_rules %>
+
+	# Include Custom Rules
+	<%= @custom_rules %>
+
+</IfModule>

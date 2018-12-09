@@ -1,0 +1,12 @@
+# /etc/apache2/sites-enabled/redirect.conf
+<VirtualHost *:80>
+    # eg. redirect www.{domain_name} to {domain_name}
+    ServerName <%= @redirect_from %>
+    Redirect permanent / http://<%= @redirect_to %>/
+</VirtualHost>
+
+<VirtualHost *:443>
+    # eg. redirect www.{domain_name} to {domain_name}
+    ServerName <%= @redirect_from %>
+    Redirect permanent / https://<%= @redirect_to %>/
+</VirtualHost>

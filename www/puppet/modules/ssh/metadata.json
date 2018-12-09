@@ -1,0 +1,12 @@
+{
+  "name": "devopsboss-ssh",
+  "version": "0.1.0",
+  "author": "Matthew Hansen",
+  "summary": "Puppet module for ssh",
+  "license": "Apache 2.0",
+  "source": "https://github.com/devopsboss/serverbuild-1804",
+  "project_page": "https://github.com/devopsboss/serverbuild-1804",
+  "issues_url": "https://github.com/devopsboss/serverbuild-1804/issues",
+  "dependencies": []
+}
+
