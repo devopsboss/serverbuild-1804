@@ -115,7 +115,7 @@ Vagrant.configure("2") do |config|
     v.name = 'serverbuild-1804'
     v.customize ['modifyvm', :id, '--cpuexecutioncap', '99']
     v.memory = 5120
-    v.cpus = 4
+    v.cpus = 2
   end
 
 
@@ -136,7 +136,7 @@ Vagrant.configure("2") do |config|
     #apt-get -y upgrade
     #apt-get -y install puppet
   SHELL
-  config.vm.provision "shell", path: "www/scripts/server/server_package_update.sh"
+  config.vm.provision "shell", path: "www/scripts/server_package_update.sh"
 
   # Enable the Puppet provisioner, with will look in manifests
   config.vm.provision :puppet do |puppet|

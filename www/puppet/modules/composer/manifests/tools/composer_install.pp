@@ -27,22 +27,37 @@
 # Matthew Hansen
 #
 define composer::tools::composer_install (
-  # eg. /srv/devopsboss/devopshome
-  $project_path       = $title,
+  # eg. /srv/devops/dashboard-1804
+  $project_path = $title,
   # eg. Server::Tools::Copy_file["$project_path/$repo_name/.env"]
-  $requirement         = undef,
-
+  $requirement  = undef,
+  $timeout      = 600,
+  # true = composer install runs every time, false = only runs once
+  $auto_update  = true,
 ) {
+
+
+  # if auto update is true then run composer install if the project path exists
+  if $auto_update == true {
+    # runs every time
+    # only if project path DOES exist
+    $onlyif = "test -d $project_path"
+  } else {
+    # only runs once
+    # only if vendor folder DOES exist
+    $onlyif = "test ! -d $project_path/vendor"
+  }
+
 
   exec { "composer-install-$project_path":
     path        => ['/bin', '/usr/bin', '/usr/local/bin'],
-    # user        => 'devops',
-    # command     => '/usr/local/bin/composer install --optimize-autoloader',
-    # allow composer scripts since composer isn't running as sudo
-    command     => '/usr/local/bin/composer install --optimize-autoloader --classmap-authoritative',
-    # eg. /srv/projects/devopshome
+    user        => 'devops',
+    # eg. /srv/devops/dashboard-1804
     cwd         => $project_path,
     environment => "HOME=/home/devops",
+    onlyif      => $onlyif,
+    command     => '/usr/local/bin/composer install --optimize-autoloader --classmap-authoritative',
+    timeout     => $timeout,
     require     => $requirement,
   }
 

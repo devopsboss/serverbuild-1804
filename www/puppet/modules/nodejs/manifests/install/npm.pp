@@ -57,6 +57,7 @@ class nodejs::install::npm (
   $install_karma      = undef,
   $install_protractor = undef,
   $install_tslint     = undef,
+  $install_puppeteer  = undef,
 
   # these will likely be removed soon
   $install_cleancss   = undef,
@@ -65,7 +66,7 @@ class nodejs::install::npm (
   $install_uglifyjs   = undef,
 ) {
 
-  #TODO: create object or array that contains [bin_folder, mode, owner, and group] and then pass through to packages?
+  #TODO: create object or array that contains [bin_folder, mode, owner, and group] and then pass through?
 
 
   #
@@ -83,6 +84,10 @@ class nodejs::install::npm (
   class { 'nodejs::install::npm::frontail':
     install => $install_frontail, bin_folder => $bin_folder, mode => $mode, owner => $owner, group => $group
   }
+  class { 'nodejs::install::npm::puppeteer':
+    install => $install_puppeteer, bin_folder => $bin_folder, mode => $mode, owner => $owner, group => $group
+  }
+
 
   # these will likely be removed soon
   class { 'nodejs::install::npm::cleancss':

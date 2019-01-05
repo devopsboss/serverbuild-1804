@@ -45,7 +45,7 @@
 define users::config (
   $user         = $title,
   $config_home  = undef,
-  $config_mysql = undef,
+  # $config_mysql = undef,
   $config_ssh   = undef,
 ) {
 
@@ -55,9 +55,9 @@ define users::config (
     users::config::home { $user: }
   }
 
-  if $config_mysql == true {
-    users::config::mysql { $user: }
-  }
+  # if $config_mysql == true {
+  #   users::config::mysql { $user: }
+  # }
 
   if $config_ssh == true {
     users::config::ssh { $user: }

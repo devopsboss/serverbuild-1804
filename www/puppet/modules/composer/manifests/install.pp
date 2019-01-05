@@ -63,9 +63,16 @@ class composer::install (
     require     => Package['php7.2-fpm'],
   }
 
+
   #
   # * Permissions
   #
+  # group access to usr/local/bin folder so composer install can create symlinks
+  file { $bin_folder:
+    mode    => '0775',
+    group   => $group,
+  }
+  # user & group access to usr/local/bin/composer
   file { "$bin_folder/composer":
     mode    => '0750',
     owner   => $user,

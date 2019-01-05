@@ -50,13 +50,13 @@ class php::install (
   # install php package
   package { 'php':
     require => Exec['apt-upgrade'],
-    ensure  => installed,
+    ensure  => latest,
   }
 
   # install php-fpm package
   package { 'php7.2-fpm':
     require => Package['php'],
-    ensure  => installed,
+    ensure  => latest,
   }
 
 

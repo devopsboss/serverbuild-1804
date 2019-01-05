@@ -70,4 +70,21 @@ define users::install::user (
     managehome => $managehome,
   }
 
+  # ensure "~/.cache" is owned by devops
+  server::tools::mkdir { "$home_dir/.cache":
+    owner       => 'devops',
+    requirement => User[$user]
+  }
+  # ensure "~/.config" is owned by devops
+  server::tools::mkdir { "$home_dir/.config":
+    owner       => 'devops',
+    requirement => User[$user]
+  }
+  # ensure "~/.local" is owned by devops
+  server::tools::mkdir { "$home_dir/.local":
+    owner       => 'devops',
+    requirement => User[$user]
+  }
+
+
 }

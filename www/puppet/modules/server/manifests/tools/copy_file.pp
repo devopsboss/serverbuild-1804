@@ -51,7 +51,7 @@ define server::tools::copy_file (
   $owner       = 'devops',
   # eg. devops
   $group       = 'devops',
-  # eg. Git::Tools::Clone['devopshome']
+  # eg. Git::Tools::Clone['dashboard-1804']
   $requirement = undef,
 ) {
 

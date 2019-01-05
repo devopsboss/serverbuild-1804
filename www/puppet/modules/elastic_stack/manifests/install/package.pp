@@ -48,18 +48,20 @@ define elastic_stack::install::package (
 
   # Install apm-server or elasticseartch etc
   package { $package:
-    ensure  => installed,
+    ensure  => latest,
     require => Exec['elastic-apt-update']
   }
 
 
 
   # Configure APM Server to start automatically during boot
-  exec { "$package-on-boot":
-    path    => '/bin:/usr/bin',
-    command => "sudo /bin/systemctl daemon-reload && sudo /bin/systemctl enable $package.service",
-    #TODO: unless
-    require => Package[$package]
-  }
+  # Not required because of www/puppet/modules/elastic_stack/manifests/service.pp
+
+  # exec { "$package-on-boot":
+  #   path    => '/bin:/usr/bin',
+  #   command => "sudo /bin/systemctl daemon-reload && sudo /bin/systemctl enable $package.service",
+  #   #TODO: unless
+  #   require => Package[$package]
+  # }
 
 }

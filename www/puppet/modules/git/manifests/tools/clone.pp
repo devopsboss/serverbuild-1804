@@ -27,26 +27,31 @@
 # Matthew Hansen
 #
 define git::tools::clone (
-  $repo_name    = $title,
-  # eg. /srv/devopsboss
+  # eg.
+  $full_project_path = $title,
+  # eg. dashboard-1804
+  # $repo_name    = undef,
+  # eg. /srv/devops
   $project_path = undef,
-  # eg. git@gitlab.com:devopsboss/devopshome.git
+  # eg. git@github.com:devopsboss/dashboard-1804.git
   $ssh_url      = undef,
-  $timeout      = 500,
+  # 30 min timeout
+  $timeout      = 1800,
 ) {
 
-  exec { "git-clone-$repo_name":
+  exec { "git-clone-$full_project_path":
     path    => ['/bin', '/usr/bin'],
     user    => 'devops',
-    # eg. /srv/devopsboss
+    # eg. /srv/devops
     cwd     => $project_path,
-    # eg. git clone git@gitlab.com:devopsboss/devopshome.git
+    # eg. git clone git@github.com:devopsboss/dashboard-1804.git
     command => "git clone $ssh_url",
     timeout => $timeout,
     # git clone unless project folder already exists
-    # /srv/projects/devopshome
-    unless  => "test -d $project_path/$repo_name",
-    require => File["/home/devops/.ssh/known_hosts"],
+    # /srv/devops/dashboard-1804
+    unless  => "test -d $full_project_path",
+    # ensure the git ssh key & git config email/name has been setup
+    require => [File['/home/devops/.ssh/known_hosts'], Exec['git-config-email'], Exec['git-config-name']],
   }
 
 }

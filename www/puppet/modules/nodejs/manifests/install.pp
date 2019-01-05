@@ -54,12 +54,13 @@ class nodejs::install (
   $install_frontail   = undef,
   $install_karma      = undef,
   $install_protractor = undef,
+  $install_puppeteer  = undef,
+  $install_tslint     = undef,
 
   # these will likely be removed soon
   $install_cleancss   = undef,
   $install_gulp       = undef,
   $install_less       = undef,
-  $install_tslint     = undef,
   $install_uglifyjs   = undef,
 ) {
 
@@ -78,9 +79,10 @@ class nodejs::install (
     group              => $group,
 
     install_angular    => $install_angular,
+    install_frontail   => $install_frontail,
     install_karma      => $install_karma,
     install_protractor => $install_protractor,
-    install_frontail   => $install_frontail,
+    install_puppeteer  => $install_puppeteer,
 
     # these will likely be removed soon
     install_cleancss   => $install_cleancss,

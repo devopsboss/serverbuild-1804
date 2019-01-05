@@ -43,8 +43,10 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class git::params (
-
-){
+  # use a generic git user that will be used for git refreshing
+  $user_email = undef,
+  $user_name  = undef,
+) {
 
 
 }

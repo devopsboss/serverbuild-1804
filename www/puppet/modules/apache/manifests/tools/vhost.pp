@@ -90,6 +90,12 @@ define apache::tools::vhost (
     $apache_error_log = "/var/log/apache2/${domain}_error.log"
   }
 
+  # if $vhost_webroot != undef {
+  #   $document_root = "DocumentRoot \"$vhost_webroot\""
+  # } else {
+  #   $document_root = ""
+  # }
+
   #
   # * Sites available
   #

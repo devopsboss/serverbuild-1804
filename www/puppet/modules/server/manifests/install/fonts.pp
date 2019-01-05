@@ -54,11 +54,30 @@ class server::install::fonts (
     'fonts-liberation',
     # windows fonts for pdf generation
     'ttf-mscorefonts-installer',
-    'msttcorefonts',
   ]
 
-  package { $packages:
+
+  # also installed for nodejs::install::npm::puppeteer
+  if !defined(Package['libfontconfig1']) {
+    package { 'libfontconfig1': ensure => latest, require => Exec['install-puppeteer'] }
+  }
+  # also installed for nodejs::install::npm::puppeteer
+  if !defined(Package['fonts-liberation']) {
+    # recommended for pdf generation
+    package { 'fonts-liberation': ensure => latest, require => Exec['install-puppeteer'] }
+  }
+
+  package { 'ttf-mscorefonts-installer':
     ensure  => latest,
+    require => Exec['apt-upgrade'],
+  }
+
+  # install Microsoft's TrueType core fonts
+  exec { 'install-msttcorefonts':
+    path    => '/bin:/usr/bin',
+    command => 'apt install msttcorefonts',
+    # do not install msttcorefonts if the license has already been confirmed
+    unless  => 'debconf-get-selections | egrep "msttcorefonts/accepted-mscorefonts-eula.*true"',
     require => Exec['apt-upgrade'],
   }
 
@@ -68,7 +87,8 @@ class server::install::fonts (
     command =>
       '/bin/sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"'
     ,
-    unless  => 'debconf-get-selections | egrep "msttcorefonts/accepted-mscorefonts-eula.*true"'
+    unless  => 'debconf-get-selections | egrep "msttcorefonts/accepted-mscorefonts-eula.*true"',
+    require => Exec['install-msttcorefonts']
   }
 
 

@@ -45,7 +45,7 @@
 class git::install {
 
 
-  #TODO: git should already be installed
+  # git should already be installed but ensure we have the latest
   package { 'git':
     ensure  => latest,
     require => Exec['apt-upgrade'],

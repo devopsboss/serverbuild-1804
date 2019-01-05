@@ -46,5 +46,14 @@ class rabbitmq::config (
 
 ) {
 
+  file { '/etc/rabbitmq/rabbitmq.config':
+    ensure    => file,
+    owner     => 'rabbitmq',
+    group     => 'rabbitmq',
+    path      => '/etc/rabbitmq/rabbitmq.config',
+    content   => template('rabbitmq/rabbitmq.config.erb'),
+    require   => Package['rabbitmq-server'],
+    subscribe => Service["rabbitmq-server"],
+  }
 
 }

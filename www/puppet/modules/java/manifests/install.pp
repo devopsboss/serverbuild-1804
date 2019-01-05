@@ -43,19 +43,19 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class java::install (
-  # eg. false or "openjdk-8-jre"
-  $openjdk_version = undef,
+  $install_jdk   = undef,
+  $jdk_package   = undef,
+
   # maven - builds java project
   $install_maven = undef,
 ) {
 
-
   #
-  # * Install openjdk
+  # * Install jdk
   #
-  if $openjdk_version == true {
-    package { $openjdk_version:
-      ensure  => installed,
+  if $install_jdk == true {
+    package { $jdk_package:
+      ensure  => latest,
       require => Exec['apt-upgrade']
     }
   }
@@ -65,7 +65,7 @@ class java::install (
   #
   if $install_maven == true {
     package { 'maven':
-      ensure  => installed,
+      ensure  => latest,
       require => Exec['apt-upgrade']
     }
   }

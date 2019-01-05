@@ -60,7 +60,7 @@ define server::install::wkhtmlto (
   #
   $packages = [
     'xvfb',
-    'libxrender1',
+    # 'libxrender1',
     'gsfonts-x11',
     'xfonts-75dpi',
     'fontconfig',
@@ -70,6 +70,12 @@ define server::install::wkhtmlto (
     ensure  => latest,
     require => Exec['apt-upgrade'],
   }
+
+  # also required for nodejs::install::npm::puppeteer
+  if !defined(Package['libxrender1']) {
+    package { 'libxrender1': ensure => latest, require => Exec['install-puppeteer'] }
+  }
+
 
 
   #

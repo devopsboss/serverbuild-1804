@@ -27,19 +27,34 @@
 # Matthew Hansen
 #
 define nodejs::tools::npm_install (
-  # eg. /srv/devopsboss/devopshome
+  # eg. /srv/devops/dashboard-1804
   $project_path = $title,
   # eg. Server::Tools::Copy_file["$project_path/$repo_name/.env"]
   $requirement  = undef,
-
+  # true = npm install runs every time, false = only runs once
+  $auto_update  = true,
 ) {
 
-  exec { 'npm-install-devopshome':
+  # if auto update is true then run npm install if the project path exists
+  if $auto_update == true {
+    # runs every time
+    # only if project path DOES exist
+    $onlyif = "test -d $project_path"
+  } else {
+    # only runs once
+    # only if node_modules folder DOES exist
+    $onlyif = "test ! -d $project_path/node_modules"
+  }
+
+
+
+  exec { "npm-install-$project_path":
     path    => ['/bin', '/usr/bin', '/usr/local/bin'],
     user    => 'devops',
-    command => 'npm install',
-    # /srv/projects/devopshome
+    # /srv/devops/dashboard-1804
     cwd     => $project_path,
+    command => 'npm install',
+    onlyif  => $onlyif,
     require => $requirement,
   }
 

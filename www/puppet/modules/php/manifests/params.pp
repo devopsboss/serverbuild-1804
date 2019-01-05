@@ -145,16 +145,11 @@ class php::params (
     'php-mbstring',
     # mongodb
     'php-mongodb',
-    # TODO: no php 7.2 php-mcrypt
-    # 'php-mcrypt',
     # mysql
     'php-mysql',
     # xml
     'php-xml',
-    # TODO: no php 7.2 php7.0-zip
-    # allows ZipArchive
-    # 'php7.0-zip',
-    # required for medicare adaptor
+    # soap
     'php-soap',
     # required for PECL (to install mailparse)
     # 'php-pear',

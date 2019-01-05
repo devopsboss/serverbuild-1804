@@ -43,15 +43,48 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class rabbitmq::install (
+  $user            = $title,
+  $password        = undef,
+  $user_tag        = undef,
+  $vhost_path      = undef,
+  $permission      = undef,
 ) {
+
+  package { 'erlang':
+    ensure  => present,
+    require => Exec['apt-upgrade']
+
+  }
 
   #
   # * Install rabbitmq package
   #
   package { 'rabbitmq-server':
-    ensure  => installed,
-    require => Exec['apt-upgrade']
+    ensure  => present,
+    require => Package['erlang']
   }
 
+  #
+  # * PLUGIN rabbitmq_management
+  #
+  exec { 'rabbitmq-plugins enable rabbitmq_management':
+    # path    => ["/bin", "/usr/sbin"],
+    path        => '/usr/bin:/usr/sbin:/bin',
+    # environment => "HOME=/home/devops",
+    #TODO: unless / onlyif
+    require     => Package['rabbitmq-server'],
+    notify      => Service['rabbitmq-server'],
+  }
+
+
+  #
+  # * CREATE USER
+  #
+  rabbitmq::create::user { $user:
+    password        => $password,
+    user_tag        => $user_tag,
+    vhost_path      => $vhost_path,
+    permission      => $permission,
+  }
 
 }

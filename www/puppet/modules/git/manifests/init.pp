@@ -43,10 +43,18 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class git (
+  # use a generic git user that will be used for git refreshing
+  $user_email = $::git::params::user_email,
+  $user_name  = $::git::params::user_name,
+
 ) inherits git::params {
 
   class { 'git::install': }
-  class { 'git::config': }
+
+  class { 'git::config':
+    user_email => $user_email,
+    user_name  => $user_name
+  }
   class { 'git::service': }
 
 }

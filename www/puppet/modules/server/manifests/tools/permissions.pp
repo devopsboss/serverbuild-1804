@@ -53,7 +53,7 @@ define server::tools::permissions (
   $group       = undef,
   # eg. false for not recursive
   $recursive   = true,
-  # eg. Composer::Tools::Install['devopshome']
+  # eg. Composer::Tools::Install['dashboard-1804']
   $requirement = undef,
 ) {
 

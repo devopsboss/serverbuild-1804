@@ -61,8 +61,7 @@ class php_xdebug::params (
   $profiler_enable         = 0, # default = 0
   $profiler_enable_trigger = 1,
   $profiler_output_name    = "cachegrind.out.%t.%p",
-  # eg. "${server::params_module::server_path_var_log}/profiler_output"
-  $profiler_output_dir     = '/var/www/profiler_output',
+  $profiler_output_dir     = '/srv/devops/tmp/profiler_output',
   $idekey                  = 'ide-xdebug'
 ) {
 

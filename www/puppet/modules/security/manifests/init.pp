@@ -83,9 +83,6 @@ class security (
   $install_rkhunter           = $::security::params::install_rkhunter,
   $rkhunter_auto_update       = $::security::params::rkhunter_auto_update,
 
-  # /etc/sudoers - give user(s) sudo access
-  $sudo_users                 = $::security::params::sudo_users,
-
   # /etc/sysctl.conf - networking config
   $accept_redirects_ipv4      = $::security::params::accept_redirects_ipv4,
   $accept_redirects_ipv6      = $::security::params::accept_redirects_ipv6,

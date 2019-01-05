@@ -44,7 +44,7 @@
 #
 class composer::params (
   $auto_update    = false,
-  $install_script = '/var/server-build-1804/www/scripts/server/composer_install.sh',
+  $install_script = '/srv/serverbuild-1804/www/scripts/composer_install.sh',
   $bin_folder     = '/usr/local/bin',
   $user           = 'devops',
   $group          = 'devops',

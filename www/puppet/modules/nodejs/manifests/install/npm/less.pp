@@ -103,11 +103,6 @@ class nodejs::install::npm::less (
       user    => 'root',
       require => Exec['install-less']
     }
-    #
-    # * TODO: permissions?
-    #
-
-
   }
 
 }

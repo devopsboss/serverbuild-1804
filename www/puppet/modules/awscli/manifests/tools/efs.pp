@@ -56,12 +56,11 @@ define awscli::tools::aws_efs (
   }
 
   # Ensure folder exists
-  file { "/var/www/efs":
-    owner   => $server::params::default_user,
-    group   => $server::params::default_user,
-    mode    => $server::params_module::server_chmod_folder_strict,
+  file { "/srv/efs":
+    owner   => 'devops',
+    group   => 'devops',
+    mode    => '0775',
     ensure  => directory,
-    recurse => true,
   }
 
   #
@@ -69,12 +68,11 @@ define awscli::tools::aws_efs (
   #
   # TODO: work in progress
   # exec { 'mount-efs':
-  #   # don't run if file already exists
-  #   unless  => "test -f $target_dir/wkhtmltoimage",
-  #   # eg. mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2:/ /var/www/efs
+  #   #unless  => "test -f ?",
+  #   # eg. mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2:/ /srv/efs
   #   command => "mount -t nfs4 -o $mount_params $efs_endpoint:/ $efs_folder",
   #   user    => $server::params::default_user,
-  #   creates => "$target_dir/wkhtmltoimage",
+  #   #creates => "/srv/efs",
   #   timeout => '30',
   #   require => Package['awscli'],
   # }

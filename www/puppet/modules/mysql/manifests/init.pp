@@ -51,8 +51,11 @@ class mysql (
   $root_user                = $::mysql::params::root_user,
   $root_password            = $::mysql::params::root_password,
 
-  # install
+  # timezone
   $install_timezone         = $::mysql::params::install_timezone,
+
+  # server
+  $install_server           = $::mysql::params::install_server,
 
   # /etc/mysql/mysql.conf.d/mysqld.cnf
   $sql_mode                 = $::mysql::params::sql_mode,
@@ -79,6 +82,7 @@ class mysql (
   # * install
   #
   class { 'mysql::install':
+    install_server   => $install_server,
     install_timezone => $install_timezone,
     db_host          => $db_host,
     db_names         => $db_names,
@@ -90,6 +94,9 @@ class mysql (
   # * config
   #
   class { 'mysql::config':
+    # true/false mysql-server has been installed
+    install_server           => $install_server,
+
     root_user                => $root_user,
     root_password            => $root_password,
 

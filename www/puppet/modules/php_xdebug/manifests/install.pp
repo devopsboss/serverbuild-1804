@@ -47,7 +47,7 @@ class php_xdebug::install (
 
   package { 'xdebug':
     name    => 'php-xdebug',
-    ensure  => installed,
+    ensure  => latest,
     require => Package['php7.2-fpm'],
     notify  => Service['php7.2-fpm']
   }

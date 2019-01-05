@@ -48,7 +48,7 @@ class mysql::params (
   #
   # eg. localhost or rds dns
   $db_host                  = 'localhost',
-  # eg. ['devopshome']
+  # eg. ['dashboard_1804']
   $db_names                 = false,
   # eg. "db_user"
   $mysql_user               = false,
@@ -58,8 +58,10 @@ class mysql::params (
   # mysql password for $root_user
   $root_password            = undef,
 
-  # install_timezone should be true for local and false for remote servers that only access RDS
+  # install_timezone should be TRUE for local and FALSE for remote servers that only access RDS
   $install_timezone         = false,
+  # install_server should be TRUE for local and FALSE for remote servers that only access RDS
+  $install_server           = false,
 
   #
   # * /etc/mysql/mysql.conf.d/mysqld.cnf

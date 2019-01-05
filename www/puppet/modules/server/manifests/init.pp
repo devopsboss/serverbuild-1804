@@ -32,6 +32,9 @@
 #
 class server (
   $timezone       = $::server::params::timezone,
+  $hosts          = $::server::params::hosts,
+  $install_java   = $::server::params::install_java,
+  $java_package   = $::server::params::java_package,
   $install_fonts  = $::server::params::install_fonts,
   $extra_packages = $::server::params::extra_packages,
   $base_packages  = $::server::params::base_packages,
@@ -43,6 +46,8 @@ class server (
   # * server install
   #
   class { 'server::install':
+    install_java   => $install_java,
+    java_package   => $java_package,
     install_fonts  => $install_fonts,
     extra_packages => $extra_packages,
     base_packages  => $base_packages,
@@ -53,6 +58,7 @@ class server (
   #
   class { 'server::config':
     timezone => $timezone,
+    hosts    => $hosts,
   }
 
   #

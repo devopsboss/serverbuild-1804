@@ -47,7 +47,7 @@ class mongodb::install {
 
   # install server package
   package { 'mongodb':
-    ensure  => installed,
+    ensure  => latest,
     require => Exec['apt-upgrade'],
   }
 

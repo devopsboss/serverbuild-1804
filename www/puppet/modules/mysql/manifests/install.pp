@@ -43,6 +43,7 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class mysql::install (
+  $install_server   = undef,
   $install_timezone = undef,
   $db_host          = undef,
   $db_names         = undef,
@@ -51,21 +52,35 @@ class mysql::install (
 ) {
 
 
-  # install mysql-server package
-  package { 'mysql-server':
-    ensure  => installed,
-    require => Exec['apt-upgrade'],
+  #
+  # * INSTALL MYSQL SERVER
+  #
+  if $install_server == true {
+    # install mysql-server package
+    package { 'mysql-server':
+      ensure  => latest,
+      require => Exec['apt-upgrade'],
+    }
+
+    # create databases
+    if $db_names != false {
+      mysql::create::database { $db_names:
+        mysql_user => $mysql_user,
+        db_host    => $db_host,
+      }
+    }
+
   }
 
   # install mysql-client package
   package { 'mysql-client':
-    ensure  => installed,
+    ensure  => latest,
     require => Package['mysql-server'],
   }
 
   # install mysql-common package
   package { 'mysql-common':
-    ensure  => installed,
+    ensure  => latest,
     require => Package['mysql-server'],
   }
 
@@ -77,17 +92,6 @@ class mysql::install (
     mysql::create::user { $mysql_user:
       mysql_password => $mysql_password,
       db_host        => $db_host,
-    }
-  }
-
-
-  #
-  # * create databases
-  #
-  if $db_names != false {
-    mysql::create::database { $db_names:
-      mysql_user => $mysql_user,
-      db_host    => $db_host,
     }
   }
 

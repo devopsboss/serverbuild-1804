@@ -43,8 +43,11 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class java::params (
-  # eg. false or "openjdk-8-jre"
-  $install_openjdk = false,
+  # eg. true or false
+  $install_jdk   = false,
+  # eg. "openjdk-8-jdk" or "default-jdk"
+  $jdk_package   = undef,
+
   # maven - builds java project
   $install_maven = false,
 ) {

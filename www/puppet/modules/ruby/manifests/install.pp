@@ -65,4 +65,66 @@ class ruby::install (
     }
   }
 
+  #
+  # * INSTALL GEM
+  #
+
+  # chunky_png
+  package { 'chunky_png':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # compass
+  package { 'compass':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # compass-validator
+  package { 'compass-validator':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # fssm
+  package { 'fssm':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # sass
+  package { 'sass':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # sass-globbing
+  package { 'sass-globbing':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # deep_merge
+  package { 'deep_merge':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # activesupport
+  package { 'activesupport':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+  # vine
+  package { 'vine':
+    ensure => present, provider => 'gem', require => Package['rails'],
+  }
+
+
+  #
+  # * PERMISSIONS
+  #
+
+  $bin_folder = '/usr/local/bin'
+  file { "$bin_folder/compass":
+    mode => '0775', owner => 'devops', group => 'devops', require => Package['compass'],
+  }
+  file { "$bin_folder/compass-validate":
+    mode => '0775', owner => 'devops', group => 'devops', require => Package['compass-validator'],
+  }
+  file { "$bin_folder/sass":
+    mode => '0775', owner => 'devops', group => 'devops', require => [Package['sass'], Package['sass-globbing']],
+  }
+  file { "$bin_folder/sass-convert":
+    mode => '0775', owner => 'devops', group => 'devops', require => [Package['sass'], Package['sass-globbing']],
+  }
+  file { "$bin_folder/scss":
+    mode => '0775', owner => 'devops', group => 'devops', require => [Package['sass'], Package['sass-globbing']],
+  }
 }

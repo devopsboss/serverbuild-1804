@@ -123,14 +123,6 @@ class security::params (
   # set this to yes to enable automatic database updates (default: false)
   $rkhunter_auto_update         = 'yes',
 
-  #TODO: this is not being used
-  # * SUDOERS - give user(s) sudo access
-  # * security::tools::sudoers_add_user
-  #
-  # array of users or false
-  # $sudo_users                   = ['www-data'],
-  $sudo_users                   = false,
-
   #
   # * SYSCTL - networking config /etc/sysctl.conf
   # * security::config::sysctl

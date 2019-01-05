@@ -55,7 +55,6 @@ class elastic_stack (
   # logstash
   $logstash_syslog            = $::elastic_stack::params::logstash_syslog,
 
-
 ) inherits elastic_stack::params {
 
   #

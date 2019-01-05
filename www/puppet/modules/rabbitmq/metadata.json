@@ -1,5 +1,5 @@
 {
-  "name": "devopsboss-rabbitmq",
+  "name": "serverbuild1804-rabbitmq",
   "version": "0.1.0",
   "author": "Matthew Hansen",
   "summary": "Puppet module for rabbitmq",

@@ -29,7 +29,7 @@
 define composer::tools::composer_config (
   # eg. '"platform.ext-mongo" "1.6.16"'
   $config_command = $title,
-  # eg. /srv/devopsboss/devopshome
+  # eg. /srv/devops/dashboard-1804
   $project_path       = undef,
   # eg. Server::Tools::Copy_file["$project_path/$repo_name/.env"]
   $requirement         = undef,
@@ -40,7 +40,7 @@ define composer::tools::composer_config (
     path        => ['/bin', '/usr/bin', '/usr/local/bin'],
     user        => 'devops',
     command     => "composer config $config_command",
-    # eg. /srv/projects/devopshome
+    # eg. /srv/devops/dashboard-1804
     cwd         => $project_path,
     environment => "HOME=/home/devops",
     require     => $requirement,

@@ -60,8 +60,9 @@ class nodejs::params (
   #
   $install_angular    = false,
   $install_frontail   = false,
-  $install_protractor = false,
   $install_karma      = false,
+  $install_protractor = false,
+  $install_puppeteer  = false,
   $install_tslint     = false,
 
   # these will likely be removed soon

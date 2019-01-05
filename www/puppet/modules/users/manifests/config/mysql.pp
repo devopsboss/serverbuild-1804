@@ -44,60 +44,20 @@
 #
 define users::config::mysql (
   $user        = $title,
+  $home_dir    = undef,
   $db_user     = undef,
   $db_password = undef,
   $db_host     = undef,
 ) {
 
-  # database connection
-  # $db_user = $server::params_module::mysql_user
-  # $db_password = $server::params_module::mysql_user_password
-  # $db_host = $server::params_module::mysql_host
-
-  #
-  # * get home dir
-  #
-  if $user == 'root' {
-    $home_dir = '/root'
-  } elsif $user == 'www-data' {
-    $home_dir = '/var/www'
-  } else {
-    $home_dir = "/home/$user"
-  }
-
 
   # .my.cnf for mysql database password
   file { "$home_dir/.my.cnf":
     ensure  => file,
-    owner   => "$user",
+    owner   => $user,
     mode    => '0644',
-    path    => "$home_dir/.my.cnf",
     content => template('users/.my.cnf.erb'),
   }
 
-  # #
-  # # * If mysql is enabled then notify mysql service, else only copy over .my.cnf
-  # #
-  # if $server::params::include_mysql == true {
-  #   # .my.cnf for mysql database password
-  #   file { "$home_dir/.my.cnf":
-  #     ensure  => file,
-  #     owner   => "$user",
-  #     mode    => '0644',
-  #     path    => "$home_dir/.my.cnf",
-  #     content => template('users/.my.cnf.erb'),
-  #     notify  => Service['mysql'],
-  #     require => Package['mysql-server'],
-  #   }
-  # } else {
-  #   # .my.cnf for mysql database password
-  #   file { "$home_dir/.my.cnf":
-  #     ensure  => file,
-  #     owner   => "$user",
-  #     mode    => '0644',
-  #     path    => "$home_dir/.my.cnf",
-  #     content => template('users/.my.cnf.erb'),
-  #   }
-  # }
 
 }

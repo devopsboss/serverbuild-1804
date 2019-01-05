@@ -30,6 +30,11 @@
 # Matthew Hansen
 #
 class rabbitmq (
+  $user            = $::rabbitmq::params::user,
+  $password        = $::rabbitmq::params::password,
+  $user_tag        = $::rabbitmq::params::user_tag,
+  $vhost_path      = $::rabbitmq::params::vhost_path,
+  $permission      = $::rabbitmq::params::permission,
 ) inherits rabbitmq::params {
 
 
@@ -37,6 +42,11 @@ class rabbitmq (
   # * install
   #
   class { 'rabbitmq::install':
+    user            => $user,
+    password        => $password,
+    user_tag        => $user_tag,
+    vhost_path      => $vhost_path,
+    permission      => $permission,
   }
 
 
@@ -50,5 +60,6 @@ class rabbitmq (
   # * service
   #
   class { 'rabbitmq::service': }
+
 
 }

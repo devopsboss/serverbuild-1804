@@ -64,7 +64,7 @@ class nodejs::install::version (
 
     # Install nodejs package
     package { 'nodejs':
-      ensure  => installed,
+      ensure  => latest,
       require => Exec["nodejs-setup-$version"],
     }
 
@@ -77,7 +77,7 @@ class nodejs::install::version (
 
     # Install nodejs package
     package { 'nodejs':
-      ensure  => installed,
+      ensure  => latest,
       require => Exec['apt-upgrade'],
     }
 
@@ -93,7 +93,7 @@ class nodejs::install::version (
 
     # Install npm
     package { 'npm':
-      ensure  => installed,
+      ensure  => latest,
       require => Package['nodejs'],
     }
 

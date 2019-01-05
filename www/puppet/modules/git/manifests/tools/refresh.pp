@@ -32,21 +32,35 @@
 # Matthew Hansen
 #
 define git::tools::refresh (
-  $git_folder      = $title,
-  $repo_name       = '',
-  $branch          = '',
-  $initial_require = undef,
-  $user            = 'devops',
+  $git_folder  = $title,
+  $repo_name   = '',
+  $branch      = '',
+  $requirement = undef,
+  $user        = 'devops',
+  # true = always git refresh, false = only git refresh if branch changes
+  $auto_update = true,
 ) {
+
+  # if auto update is true then run composer install if the project path exists
+  if $auto_update == true {
+    # runs every time
+    # only if project path DOES exist
+    $onlyif = "/usr/bin/test -d $git_folder"
+  } else {
+
+    # does NOT run unless the git branch changes
+    # eg. test ! \"$(git branch | grep \* | cut -d ' ' -f2)\" = "feat/13579_upgrade_php72"
+    $onlyif = "/usr/bin/test ! \"$(/usr/bin/git rev-parse --abbrev-ref HEAD)\" = \"$branch\""
+  }
 
 
   #
   # * git checkout require
   #
-  if $initial_require == undef {
-    $git_fetch_require = Git::Tools::Clone[$repo_name]
+  if $requirement == undef {
+    $git_fetch_require = Git::Tools::Clone[$git_folder]
   } else {
-    $git_fetch_require = $initial_require
+    $git_fetch_require = $requirement
   }
 
 
@@ -56,61 +70,70 @@ define git::tools::refresh (
   $home_dir = '/home/devops'
 
 
-
   #
   # * UPDATE BRANCH
   #
   if !defined(Exec["git-fetch-$git_folder"]) {
     exec { "git-fetch-$git_folder":
-      # this will run as root user unless we set the user (eg. ubuntu)
+      # this will run as root user unless we set the user (eg. devops)
       user        => $user,
-      command     => "/usr/bin/git fetch",
       cwd         => $git_folder,
       environment => "HOME=$home_dir",
+      command     => "/usr/bin/git fetch",
+      # only if the branch has changed or auto_update is true
+      onlyif      => $onlyif,
       require     => $git_fetch_require,
     }
   }
 
   if !defined(Exec["git-add-$git_folder"]) {
     exec { "git-add-$git_folder":
-      # this will run as root user unless we set the user (eg. ubuntu)
+      # this will run as root user unless we set the user (eg. devops)
       user        => 'devops',
-      command     => "/usr/bin/git add .",
       cwd         => $git_folder,
       environment => "HOME=$home_dir",
+      command     => "/usr/bin/git add .",
+      # only if the branch has changed or auto_update is true
+      onlyif      => $onlyif,
       require     => Exec["git-fetch-$git_folder"],
     }
   }
 
   if !defined(Exec["git-stash-$git_folder"]) {
     exec { "git-stash-$git_folder":
-      # this will run as root user unless we set the user (eg. ubuntu)
+      # this will run as root user unless we set the user (eg. devops)
       user        => 'devops',
-      command     => "/usr/bin/git stash",
       cwd         => $git_folder,
       environment => "HOME=$home_dir",
+      command     => "/usr/bin/git stash",
+      # only if the branch has changed or auto_update is true
+      onlyif      => $onlyif,
       require     => Exec["git-add-$git_folder"],
     }
   }
 
   if !defined(Exec["git-checkout-$git_folder"]) {
     exec { "git-checkout-$git_folder":
-      # this will run as root user unless we set the user (eg. ubuntu)
+      # this will run as root user unless we set the user (eg. devops)
       user        => 'devops',
-      command     => "/usr/bin/git checkout $branch",
       cwd         => $git_folder,
       environment => "HOME=$home_dir",
+      command     => "/usr/bin/git checkout $branch",
+      # only if the branch has changed or auto_update is true
+      onlyif      => $onlyif,
       require     => Exec["git-stash-$git_folder"],
     }
   }
 
-  if !defined(Exec["git-pull-$git_folder"]) {
+  # only git pull if auto update is enabled
+  if !defined(Exec["git-pull-$git_folder"]) and $auto_update == true {
     exec { "git-pull-$git_folder":
-      # this will run as root user unless we set the user (eg. ubuntu)
+      # this will run as root user unless we set the user (eg. devops)
       user        => 'devops',
-      command     => "/usr/bin/git pull",
       cwd         => $git_folder,
       environment => "HOME=$home_dir",
+      command     => "/usr/bin/git pull",
+      # only run git pull if git checkout has been run
       require     => Exec["git-checkout-$git_folder"],
     }
   }

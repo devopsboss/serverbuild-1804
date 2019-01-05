@@ -1,7 +1,7 @@
 {
-  "name": "devopsboss-site_profile",
+  "name": "serverbuild1804-site_profile",
   "version": "0.1.0",
-  "author": "devopsboss",
+  "author": "Matthew Hansen",
   "summary": "puppet module for site_profile",
   "license": "Apache-2.0",
   "source": "https://github.com/devopsboss/serverbuild-1804",

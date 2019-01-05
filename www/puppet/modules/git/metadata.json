@@ -1,8 +1,8 @@
 {
-  "name": "devopsboss-github",
+  "name": "serverbuild1804-git",
   "version": "0.1.0",
   "author": "Matthew Hansen",
-  "summary": "Puppet module for github",
+  "summary": "Puppet module for git",
   "license": "Apache 2.0",
   "source": "https://github.com/devopsboss/serverbuild-1804",
   "project_page": "https://github.com/devopsboss/serverbuild-1804",

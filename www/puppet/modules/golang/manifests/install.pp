@@ -48,7 +48,7 @@ class golang::install {
   # * Install golang package
   #
   package { 'golang':
-    ensure  => installed,
+    ensure  => latest,
     require => Exec['apt-upgrade']
   }
 

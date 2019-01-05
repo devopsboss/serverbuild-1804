@@ -46,8 +46,17 @@ class server::params (
   # eg. Etc/UTC
   $timezone       = 'Etc/UTC',
 
+  # /etc/hosts
+  $hosts = undef,
+
   # install
   $install_fonts  = false,
+
+  # java
+  # eg. true or false
+  $install_java   = false,
+  # eg. "openjdk-8-jre" or "default-jre"
+  $java_package   = undef,
 
   # eg. false or ['xsltproc']
   $extra_packages = false,

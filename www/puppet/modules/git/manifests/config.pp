@@ -42,7 +42,42 @@
 #
 # Copyright 2018 Your name here, unless otherwise noted.
 #
-class git::config {
+class git::config (
+  $user_email = undef,
+  $user_name  = undef,
+) {
 
+
+  #
+  # * user.email
+  #
+  exec { 'git-config-email':
+    path        => ['/bin', '/usr/bin'],
+    user        => 'devops',
+    cwd         => '/home/devops',
+    environment => "HOME=/home/devops",
+    # eg. git config --global user.email "you@example.com"
+    command     => "git config --global user.email \"$user_email\"",
+    # git config --global user.email
+    onlyif      => "test ! \"$(git config --global user.email)\" = \"$user_email\"",
+    require     => File["/home/devops/.ssh/known_hosts"],
+    # require => Users::Install::User['devops']
+  }
+
+  #
+  # * user.name
+  #
+  exec { 'git-config-name':
+    path        => ['/bin', '/usr/bin'],
+    user        => 'devops',
+    cwd         => '/home/devops',
+    environment => "HOME=/home/devops",
+    # eg. git config --global user.name "John Doe"
+    command     => "git config --global user.name \"$user_name\"",
+    # git config --global user.name
+    onlyif      => "test ! \"$(git config --global user.name)\" = \"$user_name\"",
+    require     => File["/home/devops/.ssh/known_hosts"],
+    # require => Users::Install::User['devops']
+  }
 
 }

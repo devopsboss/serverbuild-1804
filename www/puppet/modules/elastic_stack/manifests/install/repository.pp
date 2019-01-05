@@ -45,15 +45,17 @@
 class elastic_stack::install::repository (
 ) {
 
-  #TODO: https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+  # ref: https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
   #TODO: might be required: sudo apt-get install apt-transport-https
 
   # Import the Elasticsearch PGP Keyedit
   exec { 'elastic-pgp-key':
     path    => '/bin:/usr/bin:/usr/sbin',
-  command => 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -',
+    command => 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -',
     unless  => "test -f /etc/apt/sources.list.d/elastic-6.x.list",
     user    => 'root',
+    # see www/puppet/modules/site_profile/manifests/java/base.pp
+    require => Package['openjdk-8-jre']
     # require => Package['aide'],
   }
 
@@ -75,7 +77,6 @@ class elastic_stack::install::repository (
     #TODO: unless
     require => Exec['elastic-apt-repo']
   }
-
 
 
 }

@@ -46,6 +46,9 @@ class mysql::config (
   $root_user                = undef,
   $root_password            = undef,
 
+  # true/false mysql-server has been installed
+  $install_server           = undef,
+
   # /etc/mysql/my.cnf
   $sql_mode                 = undef,
   $innodb_ft_min_token_size = undef,
@@ -66,36 +69,39 @@ class mysql::config (
   $innodb_log_file_size     = undef,
 ) {
 
+  #
+  # * MYSQL SERVER CONFIG
+  #
+  if $install_server == true {
 
+    # mysql config file
+    file { 'mysqld.cnf':
+      # ensure     => file,
+      mode      => '0644',
+      path      => '/etc/mysql/mysql.conf.d/mysqld.cnf',
+      content   => template('mysql/mysqld.cnf.erb'),
+      require   => Package["mysql-server"],
+      subscribe => Package["mysql-server"],
+    }
+
+    # mysql config file
+    file { 'my.cnf':
+      mode      => '0644',
+      path      => '/etc/mysql/my.cnf',
+      content   => template('mysql/my.cnf.erb'),
+      require   => Package["mysql-server"],
+      subscribe => Package["mysql-server"],
+    }
+
+  }
 
 
   # set the root password
   exec { 'root-password':
     command => "/usr/bin/mysqladmin -u $root_user password $root_password",
-    require => Package["mysql-server"],
+    require => Package["mysql-client"],
     notify  => Service['mysql']
   }
-
-  # mysql config file
-  file { 'my.cnf':
-    mode      => '0644',
-    path      => '/etc/mysql/my.cnf',
-    content   => template('mysql/my.cnf.erb'),
-    require   => Package["mysql-server"],
-    subscribe => Package["mysql-server"],
-  }
-
-
-  # mysql config file
-  file { 'mysqld.cnf':
-    # ensure     => file,
-    mode      => '0644',
-    path      => '/etc/mysql/mysql.conf.d/mysqld.cnf',
-    content   => template('mysql/mysqld.cnf.erb'),
-    require   => Package["mysql-server"],
-    subscribe => Package["mysql-server"],
-  }
-
 
   # .my.cnf for mysql database password
   file { "/root/.my.cnf":
@@ -105,6 +111,5 @@ class mysql::config (
     path    => '/root/.my.cnf',
     content => template('mysql/.my.cnf.erb'),
   }
-
 
 }

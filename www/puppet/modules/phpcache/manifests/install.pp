@@ -48,17 +48,17 @@ class phpcache::install (
 
   package { 'memcached':
     require => Exec['apt-upgrade'],
-    ensure  => installed,
+    ensure  => latest,
   }
 
   package { 'php-memcached':
-    ensure  => installed,
+    ensure  => latest,
     require => Package['php'],
   }
 
 
   package { 'php-opcache':
-    ensure  => installed,
+    ensure  => latest,
     require => Package['php'],
   }
 

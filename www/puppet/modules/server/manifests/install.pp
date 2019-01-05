@@ -43,6 +43,8 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class server::install (
+  $install_java   = undef,
+  $java_package   = undef,
   $install_fonts  = undef,
   $extra_packages = undef,
   $base_packages  = undef,
@@ -67,7 +69,22 @@ class server::install (
   }
 
   #
-  # * Then run apt update
+  # * Install java
+  #
+  if $install_java == true {
+    package { $java_package:
+      ensure  => latest,
+      require => Exec['apt-update']
+    }
+    # apt upgrade after installing java to ensure the correct package is installed
+    $upgrade_require = Package[$java_package]
+  } else {
+    # apt upgrade without java requires apt-update
+    $upgrade_require = Exec['apt-update']
+  }
+
+  #
+  # * # apt upgrade
   #
   exec { 'apt-upgrade':
     path        => '/bin:/usr/bin',
@@ -77,7 +94,6 @@ class server::install (
     # require     => [Exec['apt-update'], Security::Config['security_config']]
     require     => Exec['apt-update']
   }
-
 
 
   if $base_packages != false {

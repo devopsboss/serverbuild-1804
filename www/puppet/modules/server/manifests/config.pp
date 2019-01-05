@@ -43,7 +43,8 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class server::config (
-  $timezone      = undef,
+  $timezone = undef,
+  $hosts    = undef,
 ) {
 
 
@@ -53,20 +54,37 @@ class server::config (
   exec { "timedatectl set-timezone $timezone":
     path    => '/bin:/usr/bin',
     command => "timedatectl set-timezone $timezone",
-    unless => "grep -q '$timezone' /etc/timezone",
+    unless  => "grep -q '$timezone' /etc/timezone",
     user    => 'root',
   }
   #
   # * Restart cron service to ensure it uses the correct timezone
-  # TODO: notify instead of always restarting?
+  # TODO: notify or subscribe instead of always restarting?
   #
   exec { "restart cron service":
     path    => '/bin:/usr/bin:/usr/sbin',
     command => "service cron restart",
     # only run if timezone changes
-    unless => "grep -q '$timezone' /etc/timezone",
+    unless  => "grep -q '$timezone' /etc/timezone",
     user    => 'root',
     require => Exec["timedatectl set-timezone $timezone"]
+  }
+
+
+  #
+  # * HOSTS FILE
+  #
+  if $hosts != undef {
+    file { '/etc/hosts':
+      path    => "/etc/hosts",
+      # this sets up the relationship
+      # notify  => Service['sshd'],
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      # require => Package['logrotate'],
+      content => template('server/hosts.erb'),
+    }
   }
 
 

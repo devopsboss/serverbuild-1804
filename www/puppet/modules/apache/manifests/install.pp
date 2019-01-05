@@ -55,7 +55,7 @@ class apache::install (
 
   # Install apache2 package
   package { 'apache2':
-    ensure  => installed,
+    ensure  => latest,
     require => Exec['apt-upgrade']
   }
 

@@ -52,7 +52,7 @@ class awscli::install (
   #
   # if $install_cli == true {
   package { 'awscli':
-    ensure  => installed,
+    ensure  => latest,
     require => Exec['apt-upgrade']
   }
   # }
@@ -60,8 +60,9 @@ class awscli::install (
   #
   # * ensure devops user can run awscli
   #
-  exec {'chown devops /usr/bin/aws':
-    path => ['/bin'],
+  file {'/usr/bin/aws':
+    ensure => file,
+    owner => 'devops',
     require => Package['awscli']
   }
 

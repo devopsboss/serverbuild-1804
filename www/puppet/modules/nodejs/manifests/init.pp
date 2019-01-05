@@ -57,6 +57,7 @@ class nodejs (
   $install_frontail   = $::nodejs::params::install_frontail,
   $install_karma      = $::nodejs::params::install_karma,
   $install_protractor = $::nodejs::params::install_protractor,
+  $install_puppeteer  = $::nodejs::params::install_puppeteer,
   $install_tslint     = $::nodejs::params::install_tslint,
   # these will likely be removed soon
   $install_cleancss   = $::nodejs::params::install_cleancss,
@@ -80,6 +81,7 @@ class nodejs (
     install_karma      => $install_karma,
     install_protractor => $install_protractor,
     install_tslint     => $install_tslint,
+    install_puppeteer  => $install_puppeteer,
 
     # these will likely be removed soon
     install_cleancss   => $install_cleancss,

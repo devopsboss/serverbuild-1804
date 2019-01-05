@@ -42,8 +42,14 @@
 #
 # Copyright 2018 Your name here, unless otherwise noted.
 #
-class rabbitmq::service {
+class rabbitmq::service (
 
+) {
 
+  service { 'rabbitmq-server':
+    ensure  => running,
+    enable  => true,
+    require => Package['rabbitmq-server'],
+  }
 
 }

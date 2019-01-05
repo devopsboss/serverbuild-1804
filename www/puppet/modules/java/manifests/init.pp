@@ -31,18 +31,22 @@
 # Matthew Hansen
 #
 class java (
-  # eg. false or "openjdk-8-jre"
-  $openjdk_version = $::java::params::install_openjdk,
+  # # eg. true or false
+  $install_openjdk = $::java::params::install_jdk,
+  # # eg. "openjdk-8-jdk" or "default-jdk"
+  $openjdk_version = $::java::params::jdk_package,
   # maven - builds java project
   $install_maven   = $::java::params::install_maven,
+
 ) inherits java::params {
 
   #
-  # * java install
+  # * java jdk install
   #
   class { 'java::install':
-    openjdk_version => $openjdk_version,
-    install_maven   => $install_maven,
+    install_jdk   => $install_jdk,
+    jdk_package   => $jdk_package,
+    install_maven => $install_maven,
   }
 
   #
